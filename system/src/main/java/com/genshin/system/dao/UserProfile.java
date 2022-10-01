@@ -15,6 +15,8 @@ public class UserProfile implements UserDetails, Serializable {
     private String username;
     private List<GrantedAuthority> authorities;
 
+    public UserProfile(){}
+
     public UserProfile(String userEmail,String userPassword,List<GrantedAuthority>authorities){
         this.userEmail=userEmail;
         this.userPassword=userPassword;

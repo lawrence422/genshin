@@ -22,8 +22,8 @@ public interface UserMapper {
     @Select("SELECT user_password FROM user_profile WHERE user_email=#{userEmail}")
     String getUserPassword(String userEmail);
 
-    @Insert("INSERT INTO user_authorities(user_email,authorities)VALUES(#{userEmail},#(authorities))")
-    String insertAuthorities(String userEmail,String authorities);
+    @Insert("INSERT INTO user_authorities(user_email,authorities)VALUES(#{userEmail},#{authorities})")
+    int insertAuthorities(String userEmail,String authorities);
 
     @Delete("Delete from user_profile WHERE user_email=#{userEmail}")
     int deleteAccount(String userEmail);

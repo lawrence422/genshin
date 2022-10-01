@@ -26,10 +26,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
             String userPassword=userMapper.getUserPassword(userEmail);
             List<String> authorities=userMapper.getUserAuthorities(userEmail);
+            String authoritiesString=String.valueOf(authorities);
+            authoritiesString=authoritiesString.substring(1,authoritiesString.length()-1);
 //            System.out.println(StringUtils.printStrings(userPassword));
 //            System.out.println(authorities);
             if (authorities!=null&&authorities.size()!=0) {
-                return new UserProfile(userEmail, userPassword, AuthorityUtils.commaSeparatedStringToAuthorityList(String.valueOf(authorities)));
+                return new UserProfile(userEmail, userPassword, AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesString));
             }else {
                 return new UserProfile(userEmail, userPassword, AuthorityUtils.commaSeparatedStringToAuthorityList("normal"));
             }

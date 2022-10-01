@@ -24,20 +24,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public JsonResult insertUser(UserProfile userProfile) {
         userProfile.setUserPassword(passwordEncoder.encode(userProfile.getUserPassword()));
-        if (userMapper.insertUser(userProfile)==1){
-            String email=userProfile.getUserEmail();
-            List<GrantedAuthority>list=new ArrayList<>(userProfile.getAuthorities());
-            if (userProfile.getAuthorities()==null){
-                userMapper.insertAuthorities(email,"normal");
-            }else {
-                for(GrantedAuthority grantedAuthority:list){
-                    userMapper.insertAuthorities(email,grantedAuthority.getAuthority());
+        if (userMapper.insertUser(userProfile) == 1) {
+            String email = userProfile.getUserEmail();
+            List<GrantedAuthority> list = null;
+            if (userProfile.getAuthorities() != null) {
+                list = new ArrayList<>(userProfile.getAuthorities());
+            }
+            if (list == null || list.size() == 0) {
+                userMapper.insertAuthorities(email, "normal");
+            } else {
+                for (GrantedAuthority grantedAuthority : list) {
+                    userMapper.insertAuthorities(email, grantedAuthority.getAuthority());
                 }
             }
 
             return JsonResult.success("Successfully Register.");
-        }else {
-            return JsonResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(),HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+        } else {
+            return JsonResult.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         }
     }
 
